@@ -5,7 +5,7 @@
  * @version 11/30/18
  */
 
-public interface LargeInteger<E extends Comparable<E>>{
+public interface LargeInteger<T> extends Comparable<T>{
 
     /**
      * 
@@ -13,7 +13,7 @@ public interface LargeInteger<E extends Comparable<E>>{
      * @return the LargeInteger sum of this and the argument
      * 
      */
-    public Object add(Object obj);
+    public LargeInteger add(LargeInteger input);
 
 
     /**
@@ -22,7 +22,7 @@ public interface LargeInteger<E extends Comparable<E>>{
      * @return the LargeInteger difference of this and the argument
      * 
      */
-    public Object subtract(Object obj);
+    public LargeInteger subtract(LargeInteger input);
 
 
     /**
@@ -31,13 +31,14 @@ public interface LargeInteger<E extends Comparable<E>>{
      * @return a LargeInteger that is the product of this and the argument
      * 
      */
-    public Object multiply(Object obj);
+    public LargeInteger multiply(LargeInteger input);
+    
     /**
      * Takes an object; returns 1 if this is greater than the argument, 0 if they are equal, and -1 if this is less than the argument
      * @param obj
      * @return
      */
-    public byte compareTo(T obj);
+    public int compareTo(Object obj);
     /**
      * 
      * Returns the hash code for this list.
