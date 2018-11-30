@@ -1,3 +1,10 @@
+/**
+ * LargeInterface specifying basic LargeInt operations
+ * 
+ * @author Caleb Spradlin
+ * @version 11/30/18
+ */
+
 public interface LargeInteger<T extends Comparable<T>>{
 
     /**
@@ -30,7 +37,7 @@ public interface LargeInteger<T extends Comparable<T>>{
      * @param obj
      * @return
      */
-    public byte compareTo(Object obj);
+    public byte compareTo(T obj);
     /**
      * 
      * Returns the hash code for this list.
