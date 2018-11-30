@@ -13,7 +13,7 @@ public interface LargeInteger<T> extends Comparable<T>{
      * @return the LargeInteger sum of this and the argument
      * 
      */
-    public LargeInteger add(LargeInteger input);
+    public LinkedLargeInteger<T> add(LinkedLargeInteger<T> input);
 
 
     /**
@@ -22,7 +22,7 @@ public interface LargeInteger<T> extends Comparable<T>{
      * @return the LargeInteger difference of this and the argument
      * 
      */
-    public LargeInteger subtract(LargeInteger input);
+    public LinkedLargeInteger<T> subtract(LinkedLargeInteger<T> input);
 
 
     /**
@@ -31,7 +31,7 @@ public interface LargeInteger<T> extends Comparable<T>{
      * @return a LargeInteger that is the product of this and the argument
      * 
      */
-    public LargeInteger multiply(LargeInteger input);
+    public LinkedLargeInteger<T> multiply(LinkedLargeInteger<T> input);
     
     /**
      * Takes an object; returns 1 if this is greater than the argument, 0 if they are equal, and -1 if this is less than the argument
