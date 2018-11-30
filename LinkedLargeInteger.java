@@ -17,7 +17,10 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
             this(null, null);
         }
     }
-
+    public LinkedLargeInteger(){
+        this.head = new Node<Integer>();
+        tail = head;
+    }
     public LinkedLargeInteger(String string){
         this.head = new Node<Integer>(); 
         tail = head;
@@ -57,7 +60,7 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
     }
 
     public LinkedLargeInteger<T> add(LinkedLargeInteger<T> input){
-        LinkedLargeInteger<T> output = new LinkedLargeInteger<T>(0);
+        LinkedLargeInteger<T> output = new LinkedLargeInteger<T>();
         Node<Integer> current = this.head.next;
         Node<Integer> currentIn= input.head.next;
         int carryOut = 0;
@@ -100,12 +103,14 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
     }
 
     public static void main(String[] args) {
-        LinkedLargeInteger newString = new LinkedLargeInteger("1234");
+        LinkedLargeInteger<Integer> newString = new LinkedLargeInteger<>("1234");
         System.out.println(newString);
-        LinkedLargeInteger newInt = new LinkedLargeInteger(1234);
+        LinkedLargeInteger<Integer> newString2 = new LinkedLargeInteger<>("1234");
+        System.out.println(newString2);
+        LinkedLargeInteger<Integer> newInt = new LinkedLargeInteger<>(1234);
         System.out.println(newInt);
-        LinkedLargeInteger newLong = new LinkedLargeInteger(1234293723907298323L);
+        LinkedLargeInteger<Integer> newLong = new LinkedLargeInteger<>(1234293723907298323L);
         System.out.println(newLong);
-        System.out.println(newInt.add(newString));
+        System.out.println(newString2.add(newString));
     }
 }
