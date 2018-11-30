@@ -1,6 +1,7 @@
 public class LinkedLargeInteger<T> implements LargeInteger<T>{
     private Node<Integer> head;
     private Node<Integer> tail;
+    private int size = 0;
 
     private static class Node<Integer>{
         private Integer data;
@@ -46,6 +47,7 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         for (int i = 0; i < string.length(); i++){
             Integer x = Character.getNumericValue(charArray[i]);
             this.addElement(x);
+            size++;
         }
     }
 
@@ -59,23 +61,40 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         return 1;
     }
 
-    public LinkedLargeInteger<T> add(LinkedLargeInteger<T> input){
+    public LinkedLargeInteger<T> add(LinkedLargeInteger<T> argument){
         LinkedLargeInteger<T> output = new LinkedLargeInteger<T>();
         Node<Integer> current = this.head.next;
-        Node<Integer> currentIn= input.head.next;
-        int carryOut = 0;
+        Node<Integer> currentArg = argument.head.next;
+        int sum = 0;
         int carry = 0;
-        while(current != null || currentIn != null){
-            carryOut = (current.data + currentIn.data + carry) % 10;
-            carry = (current.data + currentIn.data + carry) / 10;
-            output.addElement(carryOut);
+        while(current != null || currentArg != null){
+            sum = (current.data + currentArg.data + carry) % 10;
+            carry = (current.data + currentArg.data + carry) / 10;
+            output.addElement(sum);
             current = current.next;
-            currentIn = currentIn.next;
+            currentArg = currentArg.next;
         }
         return output;
     }
 
-    public LinkedLargeInteger<T> subtract(LinkedLargeInteger<T> input){
+    public LinkedLargeInteger<T> subtract(LinkedLargeInteger<T> argument){
+        /*
+        LinkedLargeInteger<T> output = new LinkedLargeInteger<>();
+        Node<Integer> current = this.head.next;
+        Node<Integer> currentArg = argument.head.next;
+        int difference, borrow = 0;
+        while(current != null || currentArg != null){
+            difference = current.data - currentArg.data - borrow;
+            if(difference < 10){
+                borrow = 1;
+                difference += 10;
+            } else {
+                borrow = 0;
+            }
+            output.addElement(difference);
+        }
+        return output;
+        */
         return this;
     }
 
@@ -84,22 +103,42 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
     }
 
     public int hashCode(){
-        return 1;
+        int hash = 13;
+        Node<Integer> current = head.next;
+        while (current != null){
+            hash = 23 * hash + current.data.hashCode();
+            current = current.next;
+        }
+        return hash;
     }
 
-    public boolean equals(LinkedLargeInteger<T> input){
+    public boolean equals(Object obj){
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        @SuppressWarnings("unchecked")
+        LinkedLargeInteger<T> list = (LinkedLargeInteger<T>) obj;
+        if (size != list.size) return false;
+        Node<Integer> current = head.next;
+        Node<Integer> currentArg = list.head.next;
+        while(current != null){
+            if(!current.data.equals(currentArg.data))
+                return false;
+            current = current.next;
+            currentArg = currentArg.next;
+        }
         return true;
     }
 
     public String toString(){
-        StringBuilder stringb = new StringBuilder("[");
+        StringBuilder endString = new StringBuilder("]");
         Node<Integer> current = head.next;
         while (current.next != null){
-            stringb.append(current.data + ", ");
+            endString.append(current.data);
             current = current.next;
         }
-        stringb.append(current.data +"]\n");
-        return stringb.toString();
+        endString.append(current.data +"[\n");
+        return endString.reverse().toString();
     }
 
     public static void main(String[] args) {
@@ -112,5 +151,8 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         LinkedLargeInteger<Integer> newLong = new LinkedLargeInteger<>(1234293723907298323L);
         System.out.println(newLong);
         System.out.println(newString2.add(newString));
+        //System.out.println(newString.subtract(newString2));
+        System.out.println(newString.equals(newString2));
+
     }
 }
