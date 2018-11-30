@@ -29,6 +29,7 @@ public class LinkedLargeInteger<T extends Comparable<T>> extends LargeInteger<T>
 
 
     private boolean addElement(Integer data){
-
+        head.next = new Node(data, head.next);
+        if (head == tail) tail = head.next;
     }
 }
