@@ -25,8 +25,12 @@ public interface LargeInteger<T extends Comparable<T>>{
      * 
      */
     public Object multiply(Object obj);
-
-
+    /**
+     * Takes an object; returns 1 if this is greater than the argument, 0 if they are equal, and -1 if this is less than the argument
+     * @param obj
+     * @return
+     */
+    public byte compareTo(Object obj);
     /**
      * 
      * Returns the hash code for this list.
