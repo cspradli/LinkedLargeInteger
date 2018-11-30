@@ -5,7 +5,7 @@
  * @version 11/30/18
  */
 
-public interface LargeInteger<T extends Comparable<T>>{
+public interface LargeInteger<E extends Comparable<E>>{
 
     /**
      * 
