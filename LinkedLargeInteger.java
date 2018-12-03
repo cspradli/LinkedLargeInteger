@@ -152,8 +152,23 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         LinkedLargeInteger<T> output = new LinkedLargeInteger<T>();
         Node<Integer> current = this.head.next;
         Node<Integer> currentArg = argument.head.next;
-        flushZero(this, agument);
-
+        flushZero(this, argument);
+        while(current != null){
+            int carry = 0;
+            int digit;
+            while(currentArg != null){
+                digit = (current.data * currentArg.data) + carry;
+                carry = digit / 10;
+                output.addElement(digit % 10);
+                currentArg = currentArg.next;
+            }
+            if(carry > 0){
+                digit = output.tail.data + carry;
+                carry = digit / 10;
+                output.tail.data = digit % 10;
+            }
+            current = current.next;
+        }
         
         return output;
     }
@@ -214,6 +229,8 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         System.out.println("Subtraction: \n");
         System.out.println(newLong.subtract(newInt));
         System.out.println(newString.subtract(newString2));
+        System.out.println("Multiply: \n");
+        System.out.println(newString.multiply(newString2));
         
     }
 }
