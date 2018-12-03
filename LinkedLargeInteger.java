@@ -1,3 +1,5 @@
+import com.sun.jdi.connect.Connector.Argument;
+
 public class LinkedLargeInteger<T> implements LargeInteger<T>{
     private Node<Integer> head;
     private Node<Integer> tail;
@@ -146,8 +148,14 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         return output;
     }
 
-    public LinkedLargeInteger<T> multiply(LinkedLargeInteger<T> input){
-        return this;
+    public LinkedLargeInteger<T> multiply(LinkedLargeInteger<T> argument){
+        LinkedLargeInteger<T> output = new LinkedLargeInteger<T>();
+        Node<Integer> current = this.head.next;
+        Node<Integer> currentArg = argument.head.next;
+        flushZero(this, agument);
+
+        
+        return output;
     }
 
     public int hashCode(){
