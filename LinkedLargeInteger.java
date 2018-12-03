@@ -2,8 +2,6 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
     private Node<Integer> head;
     private Node<Integer> tail;
     private int size = 0;
-    private final LinkedLargeInteger<T> ZERO = new LinkedLargeInteger<>(0);
-    private final LinkedLargeInteger<T> ONE = new LinkedLargeInteger<>(1);
 
     private static class Node<Integer>{
         private Integer data;
@@ -20,6 +18,7 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
             this(null, null);
         }
     }
+
     public LinkedLargeInteger(){
         this.head = new Node<Integer>();
         tail = head;
@@ -43,7 +42,11 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         String string = Long.toString(longNum);
         this.stringAdd(string);
     }
-
+    /**
+     * 
+     * Make String an Integer, add it to the front of the Linked List
+     * 
+     */
     private void stringAdd(String string){
         char[] charArray = string.toCharArray();
         for (int i = 0; i < string.length(); i++){
@@ -58,8 +61,9 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         size++;
         return true;
     }
+
     private boolean addLast(Integer data){
-        tail.next = new Node<Integer>(data, null);
+        tail.next = new Node<Integer>(data);
         tail = tail.next;
         size++;
         return true;
@@ -69,12 +73,42 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         return 1;
     }
 
+    /**
+     * 
+     * If one LLI is less than the other, pad with zeroes to match the space
+     * @param first
+     * @param second
+     * 
+     */
+    private void flushZero(LinkedLargeInteger<T> first, LinkedLargeInteger<T> second){
+        int difference = 0;
+        if (first.size > second.size){
+            difference = first.size - second.size;
+            for (int i = 0; i < difference; i++){
+                second.addLast(0);
+            }
+        } else if (second.size > first.size)
+        {
+            difference = second.size - first.size;
+            for (int i = 0; i < difference; i++){
+                first.addLast(0);
+            }
+        }
+        System.out.println("Flush Zero Test: \n" + first + "\n" + second + "\n");
+    }
+
+    /**
+     * 
+     * Add one LLI to the other, return new LLI with sum
+     * 
+     */
     public LinkedLargeInteger<T> add(LinkedLargeInteger<T> argument){
         LinkedLargeInteger<T> output = new LinkedLargeInteger<T>();
         Node<Integer> current = this.head.next;
         Node<Integer> currentArg = argument.head.next;
         int sum = 0;
         int carry = 0;
+        flushZero(this, argument);
         while(current != null || currentArg != null){
             sum = (current.data + currentArg.data + carry) % 10;
             carry = (current.data + currentArg.data + carry) / 10;
@@ -85,20 +119,23 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         return output;
     }
 
+    /**
+     * 
+     * Subtract one LLI from the other, return new LLI with difference
+     * 
+     */
     public LinkedLargeInteger<T> subtract(LinkedLargeInteger<T> argument){
         
         LinkedLargeInteger<T> output = new LinkedLargeInteger<T>();
-        
         Node<Integer> current = this.head.next;
         Node<Integer> currentArg = argument.head.next;
         int difference = 0; 
         int borrow = 0;
-            
-            System.out.println("Test print line 99 : \n" + argument + "\n" + this);
+        flushZero(this, argument);
             while(current != null || currentArg != null){
-                difference = current.data - currentArg.data - borrow;
-                //borrow = 0;
-                if(difference < 10){
+                difference = (current.data) - (currentArg.data) - borrow;
+                borrow = 0;
+                if(difference < 0){
                     borrow = 1;
                     difference = difference + 10;
             } else { borrow = 0; }
@@ -142,28 +179,33 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
     }
 
     public String toString(){
-        StringBuilder endString = new StringBuilder("]");
+        StringBuilder endString = new StringBuilder("[");
         Node<Integer> current = head.next;
         while (current.next != null){
             endString.append(current.data);
             current = current.next;
         }
-        endString.append(current.data +"[\n");
-        return endString.reverse().toString();
+        endString.append(current.data +"]\n");
+        return endString.toString();
     }
 
     public static void main(String[] args) {
+        
         LinkedLargeInteger<Integer> newString = new LinkedLargeInteger<>("1234");
         System.out.println(newString);
+        System.out.println("Tail "+newString.tail.data);
         LinkedLargeInteger<Integer> newString2 = new LinkedLargeInteger<>("1234");
         System.out.println(newString2);
         LinkedLargeInteger<Integer> newInt = new LinkedLargeInteger<>(1234);
         System.out.println(newInt);
         LinkedLargeInteger<Integer> newLong = new LinkedLargeInteger<>(12342937239L);
         System.out.println(newLong);
-        System.out.println(newString2.add(newString));
-        System.out.println(newString.subtract(newString2));
+        System.out.println("Addition: \n");
+        System.out.println(newString.add(newString2));
+        System.out.println(newLong.add(newInt));
+        System.out.println("Subtraction: \n");
         System.out.println(newLong.subtract(newInt));
-
+        System.out.println(newString.subtract(newString2));
+        
     }
 }
