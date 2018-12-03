@@ -2,6 +2,8 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
     private Node<Integer> head;
     private Node<Integer> tail;
     private int size = 0;
+    private final LinkedLargeInteger<T> ZERO = new LinkedLargeInteger<>(0);
+    private final LinkedLargeInteger<T> ONE = new LinkedLargeInteger<>(1);
 
     private static class Node<Integer>{
         private Integer data;
@@ -47,13 +49,19 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         for (int i = 0; i < string.length(); i++){
             Integer x = Character.getNumericValue(charArray[i]);
             this.addElement(x);
-            size++;
         }
     }
 
     private boolean addElement(Integer data){
         head.next = new Node<Integer>(data, head.next);
         if (head == tail) tail = head.next;
+        size++;
+        return true;
+    }
+    private boolean addLast(Integer data){
+        tail.next = new Node<Integer>(data, null);
+        tail = tail.next;
+        size++;
         return true;
     }
 
@@ -78,24 +86,27 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
     }
 
     public LinkedLargeInteger<T> subtract(LinkedLargeInteger<T> argument){
-        /*
-        LinkedLargeInteger<T> output = new LinkedLargeInteger<>();
+        
+        LinkedLargeInteger<T> output = new LinkedLargeInteger<T>();
+        
         Node<Integer> current = this.head.next;
         Node<Integer> currentArg = argument.head.next;
-        int difference, borrow = 0;
-        while(current != null || currentArg != null){
-            difference = current.data - currentArg.data - borrow;
-            if(difference < 10){
-                borrow = 1;
-                difference += 10;
-            } else {
-                borrow = 0;
+        int difference = 0; 
+        int borrow = 0;
+            
+            System.out.println("Test print line 99 : \n" + argument + "\n" + this);
+            while(current != null || currentArg != null){
+                difference = current.data - currentArg.data - borrow;
+                //borrow = 0;
+                if(difference < 10){
+                    borrow = 1;
+                    difference = difference + 10;
+            } else { borrow = 0; }
+                output.addElement(difference);
+                current = current.next;
+                currentArg = currentArg.next;
             }
-            output.addElement(difference);
-        }
         return output;
-        */
-        return this;
     }
 
     public LinkedLargeInteger<T> multiply(LinkedLargeInteger<T> input){
@@ -148,11 +159,11 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         System.out.println(newString2);
         LinkedLargeInteger<Integer> newInt = new LinkedLargeInteger<>(1234);
         System.out.println(newInt);
-        LinkedLargeInteger<Integer> newLong = new LinkedLargeInteger<>(1234293723907298323L);
+        LinkedLargeInteger<Integer> newLong = new LinkedLargeInteger<>(12342937239L);
         System.out.println(newLong);
         System.out.println(newString2.add(newString));
-        //System.out.println(newString.subtract(newString2));
-        System.out.println(newString.equals(newString2));
+        System.out.println(newString.subtract(newString2));
+        System.out.println(newLong.subtract(newInt));
 
     }
 }
