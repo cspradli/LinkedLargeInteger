@@ -135,7 +135,7 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
             }
         }
     }
-    
+
     public String negate(){
         StringBuilder endString = new StringBuilder("]");
         Node<Integer> current = head.next;
@@ -306,6 +306,11 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         System.out.println("----------------------------------");
         System.out.println("Negate:");
         System.out.println(newString.negate());
+        System.out.println("----------------------------------");
+        System.out.println("Hashcode and equals:\n");
+        System.out.println(newString.hashCode());
+        System.out.println(newString2.hashCode());
+        System.out.println(newString2.equals(newString));
 
     }
 }
