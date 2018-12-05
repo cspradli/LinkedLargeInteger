@@ -39,6 +39,7 @@ public interface LargeInteger<T> extends Comparable<T>{
      * @return
      */
     public int compareTo(Object obj);
+
     /**
      * 
      * Returns the hash code for this list.

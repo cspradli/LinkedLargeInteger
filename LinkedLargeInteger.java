@@ -1,10 +1,7 @@
-import com.sun.jdi.connect.Connector.Argument;
-
 public class LinkedLargeInteger<T> implements LargeInteger<T>{
     private Node<Integer> head;
     private Node<Integer> tail;
     private int size = 0;
-
     private static class Node<Integer>{
         private Integer data;
         private Node<Integer> next;
@@ -30,20 +27,20 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         tail = head;
         this.stringAdd(string);
     }
-
     public LinkedLargeInteger(int intNum){
         this.head = new Node<Integer>();
         tail = head;
         String string = Integer.toString(intNum);
         this.stringAdd(string);
     }
-
     public LinkedLargeInteger(long longNum){
         this.head = new Node<Integer>();
         tail = head;
         String string = Long.toString(longNum);
         this.stringAdd(string);
     }
+
+
     /**
      * 
      * Make String an Integer, add it to the front of the Linked List
@@ -57,6 +54,12 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         }
     }
 
+
+    /**
+     * Add an element to the front of the Linked List
+     * @param data
+     * @return true if succesfull
+     */
     private boolean addElement(Integer data){
         head.next = new Node<Integer>(data, head.next);
         if (head == tail) tail = head.next;
@@ -64,6 +67,12 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         return true;
     }
 
+
+    /**
+     * Add an element to the end of the Linked List 
+     * @param data
+     * @return true if succesfull
+     */
     private boolean addLast(Integer data){
         tail.next = new Node<Integer>(data);
         tail = tail.next;
@@ -71,8 +80,25 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         return true;
     }
 
-    public int compareTo(Object data){
-        return 1;
+    private void reverse(LinkedLargeInteger<T> input){
+        Node<Integer> reversedPart = null;
+        Node<Integer> current = input.head.next;
+        while (current != null){
+            Node<Integer> next = current.next;
+            current.next = reversedPart;
+            reversedPart = current;
+            current = next;
+        }
+        input.head.next = reversedPart;
+    }
+    
+
+    public int compareTo(Object obj){
+        @SuppressWarnings("unchecked")
+        Node<Integer> input = (Node<Integer>) obj;
+        if (this.tail.data > input.data) return 1;
+        if (this.tail.data < input.data) return -1;
+        else{return 0;}
     }
 
     /**
@@ -96,7 +122,7 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
                 first.addLast(0);
             }
         }
-        System.out.println("Flush Zero Test: \n" + first + "\n" + second + "\n");
+        //System.out.println("Flush Zero Test: \n" + first + "\n" + second + "\n");
     }
 
     /**
@@ -118,6 +144,7 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
             current = current.next;
             currentArg = currentArg.next;
         }
+        reverse(output);
         return output;
     }
 
@@ -145,31 +172,44 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
                 current = current.next;
                 currentArg = currentArg.next;
             }
+        reverse(output);
         return output;
     }
 
     public LinkedLargeInteger<T> multiply(LinkedLargeInteger<T> argument){
         LinkedLargeInteger<T> output = new LinkedLargeInteger<T>();
-        Node<Integer> current = this.head.next;
+        for (int i = 0; i < (this.size + argument.size + 1); i++){
+            output.addElement(0);
+        }
         Node<Integer> currentArg = argument.head.next;
+        Node<Integer> outputNode1 = output.head.next;
+        Node<Integer> outputNode2;
+        Node<Integer> current;
         flushZero(this, argument);
-        while(current != null){
+        
+        while(currentArg != null){
             int carry = 0;
             int digit;
-            while(currentArg != null){
+            outputNode2 = outputNode1;
+            current = this.head.next;
+            while(current != null){
+
                 digit = (current.data * currentArg.data) + carry;
-                carry = digit / 10;
-                output.addElement(digit % 10);
-                currentArg = currentArg.next;
+                outputNode2.data += digit % 10;
+
+                carry = (digit / 10) + (outputNode2.data/10);
+                outputNode2.data = outputNode2.data % 10;
+
+                current = current.next;
+                outputNode2 = outputNode2.next;
+                
             }
             if(carry > 0){
-                digit = output.tail.data + carry;
-                carry = digit / 10;
-                output.tail.data = digit % 10;
+                outputNode2.data += carry;
             }
-            current = current.next;
+            outputNode1 = outputNode1.next;
+            currentArg = currentArg.next;
         }
-        
         return output;
     }
 
@@ -202,35 +242,58 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
     }
 
     public String toString(){
-        StringBuilder endString = new StringBuilder("[");
+        StringBuilder endString = new StringBuilder("]");
         Node<Integer> current = head.next;
         while (current.next != null){
             endString.append(current.data);
             current = current.next;
         }
-        endString.append(current.data +"]\n");
+        endString.append(current.data +"[\n");
+        endString.reverse();
         return endString.toString();
     }
 
     public static void main(String[] args) {
-        
+        System.out.println("Linked Large Integers: \n\n");
         LinkedLargeInteger<Integer> newString = new LinkedLargeInteger<>("1234");
         System.out.println(newString);
-        System.out.println("Tail "+newString.tail.data);
         LinkedLargeInteger<Integer> newString2 = new LinkedLargeInteger<>("1234");
         System.out.println(newString2);
         LinkedLargeInteger<Integer> newInt = new LinkedLargeInteger<>(1234);
         System.out.println(newInt);
         LinkedLargeInteger<Integer> newLong = new LinkedLargeInteger<>(12342937239L);
         System.out.println(newLong);
-        System.out.println("Addition: \n");
-        System.out.println(newString.add(newString2));
-        System.out.println(newLong.add(newInt));
-        System.out.println("Subtraction: \n");
-        System.out.println(newLong.subtract(newInt));
-        System.out.println(newString.subtract(newString2));
-        System.out.println("Multiply: \n");
-        System.out.println(newString.multiply(newString2));
-        
+        LinkedLargeInteger<Integer> newLLI = new LinkedLargeInteger<>(237823);
+        LinkedLargeInteger<Integer> newLLI2 = new LinkedLargeInteger<>(313013);
+        System.out.println("----------------------------------");
+        System.out.println("Addition:");
+        System.out.println(newString);
+        System.out.println(newString2);
+        System.out.println("= " + newString.add(newString2));
+        System.out.println(newLong);
+        System.out.println(newInt);
+        System.out.println("= " + newLong.add(newInt));
+        System.out.println(newLLI2);
+        System.out.println(newLLI);
+        System.out.println("= " + newLLI2.add(newLLI));
+        System.out.println("----------------------------------");
+        System.out.println("Subtraction:");
+        System.out.println(newLong);
+        System.out.println(newInt);
+        System.out.println("= " + newLong.subtract(newInt));
+        System.out.println(newString);
+        System.out.println(newString2);
+        System.out.println("= " + newString.subtract(newString2));
+        System.out.println(newLLI2);
+        System.out.println(newLLI);
+        System.out.println("= " + newLLI2.subtract(newLLI));
+        System.out.println("----------------------------------");
+        System.out.println("Multiply:");
+        System.out.println(newString);
+        System.out.println(newString2);
+        System.out.println("= " + newString.multiply(newString2));
+        System.out.println(newLLI2);
+        System.out.println(newLLI);
+        System.out.println("= " + newLLI2.multiply(newLLI));
     }
 }
