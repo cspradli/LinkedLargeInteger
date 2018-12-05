@@ -307,7 +307,9 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         System.out.println("Negate:");
         System.out.println(newString.negate());
         System.out.println("----------------------------------");
-        System.out.println("Hashcode and equals:\n");
+        System.out.println("Hashcode and equals:");
+        System.out.println(newString);
+        System.out.println(newString2);
         System.out.println(newString.hashCode());
         System.out.println(newString2.hashCode());
         System.out.println(newString2.equals(newString));
