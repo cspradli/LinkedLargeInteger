@@ -80,6 +80,11 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         return true;
     }
 
+    /**
+     * 
+     * Reverse a Linked List
+     * 
+     */
     private void reverse(LinkedLargeInteger<T> input){
         Node<Integer> reversedPart = null;
         Node<Integer> current = input.head.next;
@@ -122,14 +127,8 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
                 first.addLast(0);
             }
         }
-        //System.out.println("Flush Zero Test: \n" + first + "\n" + second + "\n");
     }
 
-    /**
-     * 
-     * Add one LLI to the other, return new LLI with sum
-     * 
-     */
     public LinkedLargeInteger<T> add(LinkedLargeInteger<T> argument){
         LinkedLargeInteger<T> output = new LinkedLargeInteger<T>();
         Node<Integer> current = this.head.next;
@@ -148,13 +147,7 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         return output;
     }
 
-    /**
-     * 
-     * Subtract one LLI from the other, return new LLI with difference
-     * 
-     */
-    public LinkedLargeInteger<T> subtract(LinkedLargeInteger<T> argument){
-        
+    public LinkedLargeInteger<T> subtract(LinkedLargeInteger<T> argument){   
         LinkedLargeInteger<T> output = new LinkedLargeInteger<T>();
         Node<Integer> current = this.head.next;
         Node<Integer> currentArg = argument.head.next;
@@ -201,12 +194,9 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
                 outputNode2.data = outputNode2.data % 10;
 
                 current = current.next;
-                outputNode2 = outputNode2.next;
-                
+                outputNode2 = outputNode2.next;    
             }
-            if(carry > 0){
-                outputNode2.data += carry;
-            }
+            if(carry > 0) outputNode2.data += carry;
             outputNode1 = outputNode1.next;
             currentArg = currentArg.next;
         }
@@ -256,13 +246,12 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
     public static void main(String[] args) {
         System.out.println("Linked Large Integers: \n\n");
         LinkedLargeInteger<Integer> newString = new LinkedLargeInteger<>("1234");
-        System.out.println(newString);
+        System.out.println("String:" + newString);
         LinkedLargeInteger<Integer> newString2 = new LinkedLargeInteger<>("1234");
-        System.out.println(newString2);
         LinkedLargeInteger<Integer> newInt = new LinkedLargeInteger<>(1234);
-        System.out.println(newInt);
+        System.out.println("Integer: " + newInt);
         LinkedLargeInteger<Integer> newLong = new LinkedLargeInteger<>(12342937239L);
-        System.out.println(newLong);
+        System.out.println("Long: "+newLong);
         LinkedLargeInteger<Integer> newLLI = new LinkedLargeInteger<>(237823);
         LinkedLargeInteger<Integer> newLLI2 = new LinkedLargeInteger<>(313013);
         System.out.println("----------------------------------");
