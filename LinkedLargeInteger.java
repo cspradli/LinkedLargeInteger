@@ -135,6 +135,18 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
             }
         }
     }
+    
+    public String negate(){
+        StringBuilder endString = new StringBuilder("]");
+        Node<Integer> current = head.next;
+        while (current.next != null){
+            endString.append(current.data);
+            current = current.next;
+        }
+        endString.append(current.data +"-[\n");
+        endString.reverse();
+        return endString.toString();
+    }
 
     public LinkedLargeInteger<T> add(LinkedLargeInteger<T> argument){
         LinkedLargeInteger<T> output = new LinkedLargeInteger<T>();
@@ -174,18 +186,6 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
             }
         reverse(output);
         return output;
-    }
-
-    public String negate(){
-        StringBuilder endString = new StringBuilder("]");
-        Node<Integer> current = head.next;
-        while (current.next != null){
-            endString.append(current.data);
-            current = current.next;
-        }
-        endString.append(current.data +"-[\n");
-        endString.reverse();
-        return endString.toString();
     }
 
     public LinkedLargeInteger<T> multiply(LinkedLargeInteger<T> argument){
