@@ -1,3 +1,10 @@
+/**
+ * 
+ * @author Caleb Spradlin
+ * @version 12/4/2018
+ * Implements a Linked List version of the BigInteger found in Java, includes basic math functions
+ */
+
 public class LinkedLargeInteger<T> implements LargeInteger<T>{
     private Node<Integer> head;
     private Node<Integer> tail;
@@ -169,6 +176,18 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         return output;
     }
 
+    public String negate(){
+        StringBuilder endString = new StringBuilder("]");
+        Node<Integer> current = head.next;
+        while (current.next != null){
+            endString.append(current.data);
+            current = current.next;
+        }
+        endString.append(current.data +"-[\n");
+        endString.reverse();
+        return endString.toString();
+    }
+
     public LinkedLargeInteger<T> multiply(LinkedLargeInteger<T> argument){
         LinkedLargeInteger<T> output = new LinkedLargeInteger<T>();
         for (int i = 0; i < (this.size + argument.size + 1); i++){
@@ -284,5 +303,9 @@ public class LinkedLargeInteger<T> implements LargeInteger<T>{
         System.out.println(newLLI2);
         System.out.println(newLLI);
         System.out.println("= " + newLLI2.multiply(newLLI));
+        System.out.println("----------------------------------");
+        System.out.println("Negate:");
+        System.out.println(newString.negate());
+
     }
 }

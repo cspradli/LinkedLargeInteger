@@ -34,6 +34,13 @@ public interface LargeInteger<T> extends Comparable<T>{
     public LinkedLargeInteger<T> multiply(LinkedLargeInteger<T> input);
     
     /**
+     * 
+     * Takes the LinkedLargeInteger and makes it negative
+     * @return a String version of the LinkedList
+     * 
+     */
+    public String negate();
+    /**
      * Takes an object; returns 1 if this is greater than the argument, 0 if they are equal, and -1 if this is less than the argument
      * @param obj
      * @return
